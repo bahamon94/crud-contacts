@@ -6,8 +6,8 @@ interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = () => {
   const pages = [
-    {label: 'Contacts', link: '/' },
-    {label: 'Create', link: '/create' },
+    {label: 'Contacts', link: '/contacts' },
+    {label: 'Create', link: '/contacts/create' },
     // {label: 'Edit', link: '/edit' },
     // {label: 'Remove', link: '/remove' },
   ];

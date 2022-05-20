@@ -1,8 +1,8 @@
 import {Contacts} from "../../models";
 import {createSlice} from "@reduxjs/toolkit";
-import {contacts} from "./index";
+import {StateContact} from "../models/StateContact";
 
-export const ContactsInitialState: { contacts: Contacts[] } = {
+export const ContactsInitialState: StateContact = {
   contacts: []
 }
 
@@ -10,8 +10,8 @@ export const contactsSlice = createSlice({
   name: 'Contacts',
   initialState: ContactsInitialState,
   reducers: {
-    createContact: (state, action) => ({ contacts: { ...state.contacts, ...action.payload} }),
-    modifyContact: (state, action) => ({ contacts : { ...state.contacts, ...action.payload}}),
+    createContact: (state, action) => ({contacts:[...state.contacts, action.payload]  }),
+    modifyContact: (state, action) => ({contacts : { ...state.contacts, ...action.payload}}),
     deleteContact: (state, action) => {
       return { ...state, contacts: state.contacts.filter( contact => contact !== action.payload ) }
     }

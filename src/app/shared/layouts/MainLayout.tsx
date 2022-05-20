@@ -10,9 +10,11 @@ const MainLayout:React.FC<MainLayoutProps> = ({ children }) => {
         container
         direction="row"
         justifyContent="center"
-        alignItems="center"
+        alignItems="end"
       >
+        <div className="mt-2r">
           { children }
+        </div>
       </Grid>
     </>
   );

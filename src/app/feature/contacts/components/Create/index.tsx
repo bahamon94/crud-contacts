@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm} from "react-hook-form";
 import {createContact} from "../../../../core/redux/states/contacts";
 import {Box, Button, TextField, Typography} from "@mui/material";
@@ -6,11 +6,13 @@ import {useFetchAndLoad} from "../../../../core/hooks";
 import {createContactService} from "../../../../core/services/contact.services";
 import { useDispatch} from "react-redux";
 import {createContactAdapter} from "../../../../core/adapters/contact.adapter";
-
+import { useSnackbar } from "notistack";
 
 const Create: React.FC = () => {
   const { loading, callEndpoint } = useFetchAndLoad()
   const  dispatch = useDispatch()
+  const { enqueueSnackbar } = useSnackbar();
+
   const {
     register,
     control,
@@ -19,10 +21,14 @@ const Create: React.FC = () => {
   } = useForm();
 
   const onSubmit = async data => {
-    const contact = await callEndpoint(createContactService(data))
-    console.log('response', contact)
-    console.log('daptar', createContactAdapter(contact.data))
-    dispatch(createContact(createContactAdapter(contact.data)))
+
+    try {
+      const contact = await callEndpoint(createContactService(data))
+      dispatch(createContact(createContactAdapter(contact.data)))
+      enqueueSnackbar('Contact create succesfully', { variant: "success" })
+    } catch (e) {
+      enqueueSnackbar(e.response.data.message, { variant: "error" })
+    }
   }
 
   return (
