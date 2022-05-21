@@ -7,6 +7,7 @@ import {createContactService} from "../../../../core/services/contact.services";
 import { useDispatch} from "react-redux";
 import {createContactAdapter} from "../../../../core/adapters/contact.adapter";
 import { useSnackbar } from "notistack";
+import {Contacts} from "../../../../core/models";
 
 const Create: React.FC = () => {
   const { loading, callEndpoint } = useFetchAndLoad()
@@ -15,10 +16,9 @@ const Create: React.FC = () => {
 
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors }
-  } = useForm();
+  } = useForm<Contacts>();
 
   const onSubmit = async data => {
 
@@ -26,15 +26,22 @@ const Create: React.FC = () => {
       const contact = await callEndpoint(createContactService(data))
       dispatch(createContact(createContactAdapter(contact.data)))
       enqueueSnackbar('Contact create succesfully', { variant: "success" })
+      cleanForm()
     } catch (e) {
+      console.log(e)
       enqueueSnackbar(e.response.data.message, { variant: "error" })
     }
+  }
+
+  const cleanForm = () => {
+    document.getElementById('form-contact').reset()
   }
 
   return (
     <>
       <Box
         component="form"
+        id="form-contact"
         sx={{
           '& .MuiTextField-root': { m: 1, width: '25ch' },
         }}

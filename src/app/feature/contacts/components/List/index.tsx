@@ -45,7 +45,7 @@ export default function List () {
 
   useEffect(() => {
     setRows(usersState.contacts)
-  }, []);
+  }, [usersState]);
 
 
   const handleEdit = (action,value) => {
